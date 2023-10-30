@@ -77,10 +77,8 @@ void TreeComboItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 		pen.setWidthF(1.5);
 		painter->save();
 		painter->setPen(pen);
-#if QT_VERSION < QT_VERSION_CHECK(5, 15, 0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 		painter->setRenderHint(QPainter::HighQualityAntialiasing);
-#else
-		painter->setRenderHint(QPainter::Antialiasing);
 #endif
 		painter->drawLine(option.rect.left(), option.rect.center().y(), option.rect.right(), option.rect.center().y());
 		painter->restore();
