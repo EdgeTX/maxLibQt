@@ -29,7 +29,6 @@
 #include <QAccessible>
 #include <QGuiApplication>
 #include <QDebug>
-#include <QDesktopWidget>
 #include <QHeaderView>
 #include <QMouseEvent>
 #include <QPainter>
