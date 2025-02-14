@@ -392,9 +392,9 @@ void TreeComboBox::keyboardSearchString(const QString &text)
 void TreeComboBox::wheelEvent(QWheelEvent *event)
 {
 	QModelIndex index = m_view->currentIndex();
-	if (event->angleDelta() > 0)
+	if (event->angleDelta().x() > 0 || event->angleDelta().y() > 0)
 		index = indexAbove(index);
-	else if (event->angleDelta() < 0)
+	else if (event->angleDelta().x() < 0 || event->angleDelta().y() < 0)
 		index = indexBelow(index);
 
 	event->accept();
