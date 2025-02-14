@@ -282,7 +282,7 @@ void TreeComboBox::setCurrentIndex(const QModelIndex &index)
 	const QString text = model()->data(index).toString();
 	const QVariant currData = currentData();
 	emit currentIndexChanged(m_rowMap.value(index));
-	emit currentIndexChanged(text);
+	emit currentTextChanged(text);
 	emit currentModelIndexChanged(index);
 	if (!isEditable())
 		emit currentTextChanged(text);
@@ -319,9 +319,9 @@ QVariant TreeComboBox::itemData(int index, int role) const
 QIcon TreeComboBox::itemIcon(int index) const
 {
 	QVariant decoration = itemData(index, Qt::DecorationRole);
-	if (decoration.type() == QVariant::Pixmap)
+	if (decoration.typeId() == QVariant::Pixmap)
 		return QIcon(qvariant_cast<QPixmap>(decoration));
-	else if (decoration.type() == QVariant::Icon)
+	else if (decoration.typeId() == QVariant::Icon)
 		return qvariant_cast<QIcon>(decoration);
 	else
 		return QIcon();
@@ -392,9 +392,9 @@ void TreeComboBox::keyboardSearchString(const QString &text)
 void TreeComboBox::wheelEvent(QWheelEvent *event)
 {
 	QModelIndex index = m_view->currentIndex();
-	if (event->delta() > 0)
+	if (event->angleDelta() > 0)
 		index = indexAbove(index);
-	else if (event->delta() < 0)
+	else if (event->angleDelta() < 0)
 		index = indexBelow(index);
 
 	event->accept();
