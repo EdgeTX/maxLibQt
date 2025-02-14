@@ -43,17 +43,17 @@ ExportableTableView::ExportableTableView(QWidget *parent) : QTableView(parent)
 	addAction(cpyTab);
 
 	QAction * cpyCsv = new QAction(tr("Copy selection as comma-delimited text (CSV)"), this);
-	cpyCsv->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_C);
+	cpyCsv->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_C);
 	cpyCsv->setProperty("delim", ", ");
 	addAction(cpyCsv);
 
 	QAction * cpyPipe = new QAction(tr("Copy selection as pipe-delimited text"), this);
-	cpyPipe->setShortcut(Qt::CTRL + Qt::ALT + Qt::Key_C);
+	cpyPipe->setShortcut(Qt::CTRL | Qt::ALT | Qt::Key_C);
 	cpyPipe->setProperty("delim", " | ");
 	addAction(cpyPipe);
 
 	QAction * cpyHtml = new QAction(tr("Copy selection as HTML"), this);
-	cpyCsv->setShortcut(Qt::CTRL + Qt::ALT + Qt::SHIFT + Qt::Key_C);
+	cpyCsv->setShortcut(Qt::CTRL | Qt::ALT | Qt::SHIFT | Qt::Key_C);
 	cpyHtml->setProperty("delim", "html");
 	addAction(cpyHtml);
 
