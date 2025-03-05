@@ -29,6 +29,7 @@
 
 #include <QAction>
 #include <QActionEvent>
+#include <QMenu>
 
 ActionPushButton::ActionPushButton(QAction *defaultAction, QWidget *parent) :
   QPushButton(parent)
