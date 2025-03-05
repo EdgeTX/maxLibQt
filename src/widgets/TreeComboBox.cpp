@@ -77,7 +77,7 @@ void TreeComboItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 		painter->save();
 		painter->setPen(pen);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-		painter->setRenderHint(QPainter::HighQualityAntialiasing);
+		painter->setRenderHint(QPainter::Antialiasing);
 #endif
 		painter->drawLine(option.rect.left(), option.rect.center().y(), option.rect.right(), option.rect.center().y());
 		painter->restore();
@@ -319,12 +319,21 @@ QVariant TreeComboBox::itemData(int index, int role) const
 QIcon TreeComboBox::itemIcon(int index) const
 {
 	QVariant decoration = itemData(index, Qt::DecorationRole);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 	if (decoration.typeId() == QVariant::Pixmap)
 		return QIcon(qvariant_cast<QPixmap>(decoration));
 	else if (decoration.typeId() == QVariant::Icon)
 		return qvariant_cast<QIcon>(decoration);
 	else
 		return QIcon();
+#else
+	if (decoration.type() == QVariant::Pixmap)
+		return QIcon(qvariant_cast<QPixmap>(decoration));
+	else if (decoration.type() == QVariant::Icon)
+		return qvariant_cast<QIcon>(decoration);
+	else
+		return QIcon();
+#endif
 }
 
 void TreeComboBox::setItemData(const QModelIndex & index, const QVariant & value, int role)
