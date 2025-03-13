@@ -29,7 +29,6 @@
 #include <QAccessible>
 #include <QGuiApplication>
 #include <QDebug>
-#include <QDesktopWidget>
 #include <QHeaderView>
 #include <QMouseEvent>
 #include <QPainter>
@@ -78,7 +77,7 @@ void TreeComboItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem 
 		painter->save();
 		painter->setPen(pen);
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-		painter->setRenderHint(QPainter::HighQualityAntialiasing);
+		painter->setRenderHint(QPainter::Antialiasing);
 #endif
 		painter->drawLine(option.rect.left(), option.rect.center().y(), option.rect.right(), option.rect.center().y());
 		painter->restore();
@@ -283,7 +282,7 @@ void TreeComboBox::setCurrentIndex(const QModelIndex &index)
 	const QString text = model()->data(index).toString();
 	const QVariant currData = currentData();
 	emit currentIndexChanged(m_rowMap.value(index));
-	emit currentIndexChanged(text);
+	emit currentTextChanged(text);
 	emit currentModelIndexChanged(index);
 	if (!isEditable())
 		emit currentTextChanged(text);
@@ -320,12 +319,21 @@ QVariant TreeComboBox::itemData(int index, int role) const
 QIcon TreeComboBox::itemIcon(int index) const
 {
 	QVariant decoration = itemData(index, Qt::DecorationRole);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	if (decoration.typeId() == QVariant::Pixmap)
+		return QIcon(qvariant_cast<QPixmap>(decoration));
+	else if (decoration.typeId() == QVariant::Icon)
+		return qvariant_cast<QIcon>(decoration);
+	else
+		return QIcon();
+#else
 	if (decoration.type() == QVariant::Pixmap)
 		return QIcon(qvariant_cast<QPixmap>(decoration));
 	else if (decoration.type() == QVariant::Icon)
 		return qvariant_cast<QIcon>(decoration);
 	else
 		return QIcon();
+#endif
 }
 
 void TreeComboBox::setItemData(const QModelIndex & index, const QVariant & value, int role)
@@ -393,9 +401,9 @@ void TreeComboBox::keyboardSearchString(const QString &text)
 void TreeComboBox::wheelEvent(QWheelEvent *event)
 {
 	QModelIndex index = m_view->currentIndex();
-	if (event->delta() > 0)
+	if (event->angleDelta().x() > 0 || event->angleDelta().y() > 0)
 		index = indexAbove(index);
-	else if (event->delta() < 0)
+	else if (event->angleDelta().x() < 0 || event->angleDelta().y() < 0)
 		index = indexBelow(index);
 
 	event->accept();
