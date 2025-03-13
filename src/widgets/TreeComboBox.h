@@ -98,7 +98,7 @@ class TreeComboBox : public QComboBox
 		explicit TreeComboBox(QWidget * parent = Q_NULLPTR);
 
 		/*! \reimp  Reimplemented from \e QComboBox::setModel()  */
-		void setModel(QAbstractItemModel *model);
+		void setModel(QAbstractItemModel *model) override;
 		/*!  Like \e QComboBox::setView but only accepts QTreeView (and derived) view classes.  */
 		void setView(QAbstractItemView *itemView = Q_NULLPTR);  // only QTreeView and derived
 		inline QTreeView * view() const { return m_view; }
