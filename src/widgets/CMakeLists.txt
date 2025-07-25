@@ -3,8 +3,8 @@ cmake_minimum_required(VERSION 3.5)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(Qt5Core)
-find_package(Qt5Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 project(maxLibQtWidgets)
 
@@ -18,9 +18,9 @@ set(SRCS
 )
 
 set(HDRS
-  "${CMAKE_CURRENT_LIST_DIR}/ActionPushButton.h"
-  "${CMAKE_CURRENT_LIST_DIR}/BuddyLabel.h"
-  "${CMAKE_CURRENT_LIST_DIR}/CollapsingToolBar.h"
+	"${CMAKE_CURRENT_LIST_DIR}/ActionPushButton.h"
+	"${CMAKE_CURRENT_LIST_DIR}/BuddyLabel.h"
+	"${CMAKE_CURRENT_LIST_DIR}/CollapsingToolBar.h"
 	"${CMAKE_CURRENT_LIST_DIR}/ExportableTableView.h"
 	"${CMAKE_CURRENT_LIST_DIR}/OverlayStackLayout.h"
 	"${CMAKE_CURRENT_LIST_DIR}/RoundedMessageBox.h"
@@ -30,7 +30,7 @@ set(HDRS
 )
 
 add_library(${PROJECT_NAME} ${SRCS} ${HDRS})
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt::Core Qt::Widgets)
 target_compile_definitions(${PROJECT_NAME} PRIVATE QT_USE_QSTRINGBUILDER)
 
 # need to push this upstream
